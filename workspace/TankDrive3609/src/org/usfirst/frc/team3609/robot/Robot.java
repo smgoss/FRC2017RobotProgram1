@@ -3,7 +3,6 @@ package org.usfirst.frc.team3609.robot;
 import edu.wpi.first.wpilibj.SampleRobot;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Timer;
@@ -27,35 +26,67 @@ import com.ctre.CANTalon;
 
 
 public class Robot extends SampleRobot {
+	// An Xbox controller for driving
+	XboxController driverController = new XboxController (0); 
+	// Left side motor controllers
+	CANTalon mControlLeftF = new CANTalon (0);
+	CANTalon mControlLeftR = new CANTalon (1);
+	// Right side motor controllers
+	CANTalon mControlRightF = new CANTalon (2);
+	CANTalon mControlRightR = new CANTalon (4);
+	// Robot drive with 4 motor controllers
+	RobotDrive myRobot = new RobotDrive(mControlLeftF, mControlLeftR, mControlLeftF, mControlLeftR);
 	
-												// operations
-	XboxController driverController = new XboxController(0); // set to ID 1 in DriverStation
-	CANTalon mControlLeftF = new CANTalon(0);
-	CANTalon mControlRightF = new CANTalon(2);
-	CANTalon mControlLeftR = new CANTalon(1);
-	CANTalon mControlRightR = new CANTalon(4);
-	RobotDrive myRobot = new RobotDrive(mControlLeftF, mControlLeftR, mControlLeftF, mControlLeftR); // class that handles basic drive
+	// *******************************************************************
+	// Robot constructor
+	// *******************************************************************
 	public Robot() {
-		//myRobot.setExpiration(1);
+		myRobot.setExpiration(0.1);
+		// Set all motor speeds to 0
 		mControlLeftF.set(0);
 		mControlLeftR.set(0);
 		mControlRightF.set(0);
 		mControlRightR.set(0);
 	}
 
+	// *******************************************************************
+	// robotInit - Robot wide initialization code. Required to connect to
+	//             the field.
+	// *******************************************************************
 	@Override
 	public void robotInit() {
 		CameraServer.getInstance().startAutomaticCapture();
 	}
-	/**
-	 * Runs the motors with tank steering.
-	 */
 	
+	// *******************************************************************
+	// autonomous - Only called once to run the autonomous mode. Example
+	//              uses a case statement and a sendable chooser to get
+	//              which automomous routine was selected in the smart
+	//              dash board. Example in SampleRobot example.
+	// *******************************************************************
+	@Override
+	public void autonomous() {
+		// Nothing written for this yet.
+	}
+
+	// *******************************************************************
+	//  operatorControl - Called once to start Operator control mode
+	// *******************************************************************
 	public void operatorControl() {
-		myRobot.setSafetyEnabled(false);
+		myRobot.setSafetyEnabled(true);
+		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
+			// Execute a drive move
 			myRobot.tankDrive(driverController.getY(Hand.kLeft), driverController.getY(Hand.kRight), true);
-			Timer.delay(0.005); // wait for a motor update time
+			// wait for a motor update time
+			Timer.delay(0.005); 
 		}
+	}
+	// *******************************************************************
+	// test - Runs during test mode.
+	// *******************************************************************
+	@Override
+	public void test() {
+		// Nothing written for this yet.
 	}
 }
