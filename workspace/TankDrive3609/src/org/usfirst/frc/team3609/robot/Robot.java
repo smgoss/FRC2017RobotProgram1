@@ -5,9 +5,13 @@ import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 /**
  * This is a demo program showing the use of the RobotDrive class, specifically
  * it contains the code necessary to operate a robot with tank drive.
@@ -34,9 +38,15 @@ public class Robot extends SampleRobot {
 	// Right side motor controllers
 	CANTalon mControlRightF = new CANTalon (2);
 	CANTalon mControlRightR = new CANTalon (4);
-	// Robot drive with 4 motor controllers
-	RobotDrive myRobot = new RobotDrive(mControlLeftF, mControlLeftR, mControlLeftF, mControlLeftR);
-	
+	// Robot drive
+	RobotDrive myRobot = new RobotDrive(mControlLeftF, mControlRightF);
+	// A Chooser for selecting Auto mode on the SmartDashboard
+	SendableChooser<autoMode> chooser = new SendableChooser<autoMode>();
+	// Auto mode enumerations
+	public enum autoMode {
+		AUTOMODE1,
+		AUTOMODE2
+	}
 	// *******************************************************************
 	// Robot constructor
 	// *******************************************************************
@@ -47,6 +57,16 @@ public class Robot extends SampleRobot {
 		mControlLeftR.set(0);
 		mControlRightF.set(0);
 		mControlRightR.set(0);
+		// Map the rear motors to follow the front motors
+		mControlLeftR.changeControlMode(TalonControlMode.Follower);
+		mControlLeftR.set(mControlLeftF.getDeviceID());
+	    mControlRightR.changeControlMode(TalonControlMode.Follower);
+	    mControlRightR.set(mControlRightF.getDeviceID());
+	    // Add auto mode options to the SmartDashboard
+		chooser.addDefault("First Auto Mode", autoMode.AUTOMODE1);
+		chooser.addObject("Second Auto Mode", autoMode.AUTOMODE2);
+		SmartDashboard.putData("Auto modes", chooser);
+	    
 	}
 
 	// *******************************************************************
