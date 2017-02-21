@@ -33,11 +33,11 @@ public class Robot extends SampleRobot {
 	// An Xbox controller for driving
 	XboxController driverController = new XboxController (0); 
 	// Left side motor controllers
-	CANTalon mControlLeftF = new CANTalon (0);
-	CANTalon mControlLeftR = new CANTalon (1);
+	CANTalon mControlLeftF = new CANTalon (13);
+	CANTalon mControlLeftR = new CANTalon (10);
 	// Right side motor controllers
-	CANTalon mControlRightF = new CANTalon (2);
-	CANTalon mControlRightR = new CANTalon (4);
+	CANTalon mControlRightF = new CANTalon (11);
+	CANTalon mControlRightR = new CANTalon (12);
 	// Robot drive
 	RobotDrive myRobot = new RobotDrive(mControlLeftF, mControlRightF);
 	// A Chooser for selecting Auto mode on the SmartDashboard
