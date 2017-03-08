@@ -53,3 +53,7 @@ Temporary Items
 workspace/TankDrive3609/build/org/usfirst/frc/team3609/robot/Robot.class
 *.jar
 *.classpath
+workspace/TankDrive3609/dist/FRCUserProgram.jar
+*.jar
+workspace/TankDrive3609/build/org/usfirst/frc/team3609/robot/Robot.class
+*.jar
