@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 /**
  * This is a demo program showing the use of the RobotDrive class, specifically
  * it contains the code necessary to operate a robot with tank drive.
@@ -40,13 +42,10 @@ public class Robot extends SampleRobot {
 	CANTalon mControlRightR = new CANTalon (12);
 	// Robot drive
 	RobotDrive myRobot = new RobotDrive(mControlLeftF, mControlRightF);
-	// A Chooser for selecting Auto mode on the SmartDashboard
-	SendableChooser<autoMode> chooser = new SendableChooser<autoMode>();
-	// Auto mode enumerations
-	public enum autoMode {
-		AUTOMODE1,
-		AUTOMODE2
-	}
+	// Climber motor controller
+	SpeedController climber = new Talon(5);
+	SpeedController ballCollector = new Talon(4);
+	
 	// *******************************************************************
 	// Robot constructor
 	// *******************************************************************
@@ -62,10 +61,6 @@ public class Robot extends SampleRobot {
 		mControlLeftR.set(mControlLeftF.getDeviceID());
 	    mControlRightR.changeControlMode(TalonControlMode.Follower);
 	    mControlRightR.set(mControlRightF.getDeviceID());
-	    // Add auto mode options to the SmartDashboard
-		chooser.addDefault("First Auto Mode", autoMode.AUTOMODE1);
-		chooser.addObject("Second Auto Mode", autoMode.AUTOMODE2);
-		SmartDashboard.putData("Auto modes", chooser);
 	    
 	}
 
@@ -75,7 +70,9 @@ public class Robot extends SampleRobot {
 	// *******************************************************************
 	@Override
 	public void robotInit() {
-		CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture(0);
+		CameraServer.getInstance().startAutomaticCapture(1);
+
 	}
 	
 	// *******************************************************************
@@ -86,6 +83,23 @@ public class Robot extends SampleRobot {
 	// *******************************************************************
 	@Override
 	public void autonomous() {
+		int loopCount = 0;
+		while(isAutonomous() && isEnabled())
+		{
+			if (loopCount < 200)
+			{
+				// Set climber to run at half speed
+				climber.set(0.5);
+				// Run the ball collector at full speed
+				ballCollector.set(1);
+				// Run drive base at 25%
+				myRobot.tankDrive(0.25, 0.25);
+				// wait for a motor update time
+				Timer.delay(0.005);
+				// Update Counter
+				loopCount ++;
+			}
+		}
 		// Nothing written for this yet.
 	}
 
@@ -98,6 +112,10 @@ public class Robot extends SampleRobot {
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
 			myRobot.tankDrive(driverController.getY(Hand.kLeft), driverController.getY(Hand.kRight), true);
+			// Set the climber speed to 50%
+			climber.set(0.5);
+			// Set ball collector speed to 100%
+			ballCollector.set(1);
 			// wait for a motor update time
 			Timer.delay(0.005); 
 		}
