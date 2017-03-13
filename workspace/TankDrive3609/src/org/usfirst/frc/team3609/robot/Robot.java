@@ -3,6 +3,7 @@ package org.usfirst.frc.team3609.robot;
 import edu.wpi.first.wpilibj.SampleRobot;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
@@ -34,6 +35,8 @@ import edu.wpi.first.wpilibj.Talon;
 public class Robot extends SampleRobot {
 	// An Xbox controller for driving
 	XboxController driverController = new XboxController (0); 
+	// Attack 3
+	Joystick attack3 = new Joystick(1);
 	// Left side motor controllers
 	CANTalon mControlLeftF = new CANTalon (13);
 	CANTalon mControlLeftR = new CANTalon (10);
@@ -86,14 +89,14 @@ public class Robot extends SampleRobot {
 		int loopCount = 0;
 		while(isAutonomous() && isEnabled())
 		{
-			if (loopCount < 200)
+			if (loopCount < 300)
 			{
 				// Set climber to run at half speed
-				climber.set(0.5);
+				// climber.set(0.5);
 				// Run the ball collector at full speed
-				ballCollector.set(1);
+				//ballCollector.set(1);
 				// Run drive base at 25%
-				myRobot.tankDrive(0.25, 0.25);
+				myRobot.tankDrive(0.75, 0.75);
 				// wait for a motor update time
 				Timer.delay(0.005);
 				// Update Counter
@@ -111,11 +114,22 @@ public class Robot extends SampleRobot {
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
-			myRobot.tankDrive(driverController.getY(Hand.kLeft), driverController.getY(Hand.kRight), true);
+			// Invert to make gear pocket the front
+			myRobot.tankDrive((driverController.getY(Hand.kLeft)*-1)
+					, (driverController.getY(Hand.kRight)*-1)
+					, true);
 			// Set the climber speed to 50%
-			climber.set(0.5);
+//			if (driverController.getXButton())
+//				{
+//				climber.set(1);
+//				}
+//			else
+//			{
+//				climber.set(0);
+//			}
+			climber.set(attack3.getY()*-1);	
 			// Set ball collector speed to 100%
-			ballCollector.set(1);
+			//ballCollector.set(1);
 			// wait for a motor update time
 			Timer.delay(0.005); 
 		}
