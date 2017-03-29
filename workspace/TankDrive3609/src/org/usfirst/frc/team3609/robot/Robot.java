@@ -114,9 +114,8 @@ public class Robot extends SampleRobot {
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
-			// Invert to make gear pocket the front
-			myRobot.tankDrive((driverController.getY(Hand.kLeft)*-1)
-					, (driverController.getY(Hand.kRight)*-1)
+			myRobot.tankDrive((driverController.getY(Hand.kLeft))
+					, (driverController.getY(Hand.kRight))
 					, true);
 			// Set the climber speed to 50%
 //			if (driverController.getXButton())
