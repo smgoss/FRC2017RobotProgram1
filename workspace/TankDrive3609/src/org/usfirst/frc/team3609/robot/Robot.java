@@ -96,7 +96,7 @@ public class Robot extends SampleRobot {
 				// Run the ball collector at full speed
 				//ballCollector.set(1);
 				// Run drive base at 25%
-				myRobot.tankDrive(0.75, 0.75);
+				myRobot.tankDrive(-0.75, -0.73);
 				// wait for a motor update time
 				Timer.delay(0.005);
 				// Update Counter
@@ -111,6 +111,7 @@ public class Robot extends SampleRobot {
 	// *******************************************************************
 	public void operatorControl() {
 		myRobot.setSafetyEnabled(true);
+		boolean climbing = false;
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
@@ -118,11 +119,11 @@ public class Robot extends SampleRobot {
 					driverController.getX(Hand.kRight), 
 					true);
 			// Set the climber speed to 50%
-//			if (driverController.getXButton())
+//			if (driverController.getXButton() && !climbing)
 //				{
 //				climber.set(1);
 //				}
-//			else
+//			else if (!driverController.getXButton())
 //			{
 //				climber.set(0);
 //			}
