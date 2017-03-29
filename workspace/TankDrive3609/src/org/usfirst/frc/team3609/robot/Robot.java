@@ -96,7 +96,7 @@ public class Robot extends SampleRobot {
 				// Run the ball collector at full speed
 				//ballCollector.set(1);
 				// Run drive base at 25%
-				myRobot.tankDrive(0.75, 0.75);
+				myRobot.tankDrive(-0.75, -0.73);
 				// wait for a motor update time
 				Timer.delay(0.005);
 				// Update Counter
