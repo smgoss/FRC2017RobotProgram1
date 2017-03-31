@@ -111,11 +111,20 @@ public class Robot extends SampleRobot {
 	// *******************************************************************
 	public void operatorControl() {
 		myRobot.setSafetyEnabled(true);
-		boolean climbing = false;
+		boolean bFrontDrive = true;
+		boolean bReverseDrive = false;
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
-			
+			if (driverController.getBumper(Hand.kLeft))
+			{
+				bFrontDrive = true;
+				bReverseDrive = false;
+			} else if (driverController.getBumper(Hand.kRight))
+			{
+				bFrontDrive = false;
+				bReverseDrive = true;
+			}
 			// Check for a left spin
 			if (driverController.getTriggerAxis(Hand.kLeft)>0?true:false)
 			{
@@ -129,16 +138,22 @@ public class Robot extends SampleRobot {
 			// otherwise just drive
 			else
 			{
-				if(driverController.getY()>0)
+				if(bFrontDrive)
 				{
 				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
 						driverController.getX(Hand.kRight)*-1, 
 						true);
 				} 
+				else if(bReverseDrive)
+				{
+				myRobot.arcadeDrive(driverController.getY(Hand.kRight)*-1, 
+						driverController.getX(Hand.kRight), 
+						true);
+				}
 				else
 				{
 				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
-						driverController.getX(Hand.kRight), 
+						driverController.getX(Hand.kRight)*-1, 
 						true);
 				}
 			}
