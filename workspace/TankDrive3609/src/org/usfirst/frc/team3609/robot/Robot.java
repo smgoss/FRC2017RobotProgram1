@@ -64,7 +64,6 @@ public class Robot extends SampleRobot {
 		mControlLeftR.set(mControlLeftF.getDeviceID());
 	    mControlRightR.changeControlMode(TalonControlMode.Follower);
 	    mControlRightR.set(mControlRightF.getDeviceID());
-	    
 	}
 
 	// *******************************************************************
@@ -111,12 +110,100 @@ public class Robot extends SampleRobot {
 	// *******************************************************************
 	public void operatorControl() {
 		myRobot.setSafetyEnabled(true);
+//		double left = 0;
+//		double right = 0;
+//		double oldLeft = 0;
+//		double oldRight = 0;
+//		double limit = 0.005; 
+//		double zero_deadband = 0.2;
+//		double leftkill = 1;
+//		double rightkill = 1;
+//		double leftreal = 0;
+//		double rightreal = 0;
+		
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
-			// Execute a drive move
-			myRobot.tankDrive((driverController.getY(Hand.kRight)*0.75)
-					, (driverController.getY(Hand.kLeft)*0.75)
-					, true);
+//			// Execute a drive move
+//			
+//			left = driverController.getY(Hand.kLeft);
+//			right = driverController.getY(Hand.kRight);
+//			
+//			
+//			if (Math.abs(left) < zero_deadband)
+//			{
+//				leftkill = 1;
+//			}
+//				
+//			if( left < 0 ){
+//					if( oldLeft > 0 ){
+//						leftkill = 1;
+//					}else{
+//						if(Math.abs(oldLeft-left) > limit)
+//							left = (oldLeft - limit); //bcuz negative
+//						leftkill = 0;
+//					}
+//				}else{
+//					if( oldLeft < 0 ){
+//						leftkill = 1;
+//					}else{
+//						if(Math.abs(oldLeft-left) > limit)
+//							left = (oldLeft + limit); 
+//						leftkill = 0;
+//					}
+//				}
+//			//right drive control
+//			if (Math.abs(right) < zero_deadband)
+//			{
+//				rightkill = 1;
+//			}
+//				
+//			if( right < 0 ){
+//					if( oldRight > 0 ){
+//						rightkill = 1;
+//					}else{
+//						if(Math.abs(oldRight-right) > limit)
+//						{
+//							right = (oldRight - limit); //bcuz negative
+//						 	rightkill = 0;
+//						} else
+//						{
+//						
+//						}
+//					}
+//				}else{
+//					if( oldRight < 0 ){
+//						rightkill = 1;
+//					}else{
+//						if(Math.abs(oldRight-right) > limit)
+//							right = (oldRight + limit); 
+//						rightkill = 0;
+//					}
+//				}
+//			
+//			
+//			if(leftkill == 1){
+//				leftreal = 0;
+//			}else{
+//				leftreal = left;
+//			}
+//			
+//			if(rightkill == 1){
+//				rightreal = 0;
+//			}else{
+//				rightreal = right;
+//			}
+			
+			myRobot.tankDrive(driverController.getY(Hand.kRight)*0.9, 
+					driverController.getY(Hand.kLeft )*0.9,
+					true);
+//			myRobot.tankDrive(rightreal*0.75, 
+//					leftreal*0.75,
+//					true);
+//			oldLeft = left;
+//			oldRight = right;
+			
+			
+
 			// Set the climber speed to 50%
 //			if (driverController.getXButton())
 //				{
