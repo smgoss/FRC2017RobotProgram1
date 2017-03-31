@@ -114,8 +114,8 @@ public class Robot extends SampleRobot {
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
-			myRobot.tankDrive((driverController.getY(Hand.kLeft))
-					, (driverController.getY(Hand.kRight))
+			myRobot.tankDrive((driverController.getY(Hand.kRight)*0.75)
+					, (driverController.getY(Hand.kLeft)*0.75)
 					, true);
 			// Set the climber speed to 50%
 //			if (driverController.getXButton())
