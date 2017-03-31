@@ -129,11 +129,20 @@ public class Robot extends SampleRobot {
 			// otherwise just drive
 			else
 			{
-			myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
-					driverController.getX(Hand.kRight)*-1, 
-					true);	
+				if(driverController.getY()>0)
+				{
+				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+						driverController.getX(Hand.kRight)*-1, 
+						true);
+				} 
+				else
+				{
+				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+						driverController.getX(Hand.kRight), 
+						true);
+				}
 			}
-			climber.set(Math.abs(attack3.getY())*-1);	
+			climber.set(Math.abs(attack3.getY()));	
 			// climber.set(-1*(driverController.getXButton()?1:0));
 			// Set ball collector speed to 100%
 			//ballCollector.set(1);
