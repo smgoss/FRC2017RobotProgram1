@@ -115,19 +115,26 @@ public class Robot extends SampleRobot {
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
+			
+			// Check for a left spin
+			if (driverController.getTriggerAxis(Hand.kLeft)>0?true:false)
+			{
+				myRobot.tankDrive(-0.75, 0.75);
+			} 
+			// or a right spin
+			else if (driverController.getTriggerAxis(Hand.kRight)>0?true:false)
+			{
+			myRobot.tankDrive(0.75,  -0.75);
+			} 
+			// otherwise just drive
+			else
+			{
 			myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
-					driverController.getX(Hand.kRight), 
-					true);
-			// Set the climber speed to 50%
-//			if (driverController.getXButton() && !climbing)
-//				{
-//				climber.set(1);
-//				}
-//			else if (!driverController.getXButton())
-//			{
-//				climber.set(0);
-//			}
-			climber.set(attack3.getY()*-1);	
+					driverController.getX(Hand.kRight)*-1, 
+					true);	
+			}
+			climber.set(Math.abs(attack3.getY())*-1);	
+			// climber.set(-1*(driverController.getXButton()?1:0));
 			// Set ball collector speed to 100%
 			//ballCollector.set(1);
 			// wait for a motor update time
