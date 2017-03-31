@@ -113,49 +113,108 @@ public class Robot extends SampleRobot {
 		myRobot.setSafetyEnabled(true);
 		boolean bFrontDrive = true;
 		boolean bReverseDrive = false;
+		boolean bTankDrive = false;
+		boolean bArcadeDrive = true;
 		// Stay in Tele-op mode
 		while (isOperatorControl() && isEnabled()) {
 			// Execute a drive move
 			if (driverController.getBumper(Hand.kLeft))
-			{
+				{
 				bFrontDrive = true;
 				bReverseDrive = false;
-			} else if (driverController.getBumper(Hand.kRight))
-			{
+				} 
+			else if (driverController.getBumper(Hand.kRight))
+				{
 				bFrontDrive = false;
 				bReverseDrive = true;
-			}
+				}
+			if (driverController.getYButton())
+				{
+				bTankDrive = true;
+				bArcadeDrive = false;
+				} 
+			else if (driverController.getXButton())
+				{
+				bTankDrive = false;
+				bArcadeDrive = true;
+				}
 			// Check for a left spin
 			if (driverController.getTriggerAxis(Hand.kLeft)>0?true:false)
-			{
-				myRobot.tankDrive(-0.75, 0.75);
-			} 
+				{
+					myRobot.tankDrive(-0.75, 0.75);
+				} 
 			// or a right spin
 			else if (driverController.getTriggerAxis(Hand.kRight)>0?true:false)
-			{
-			myRobot.tankDrive(0.75,  -0.75);
-			} 
+				{
+				myRobot.tankDrive(0.75,  -0.75);
+				} 
 			// otherwise just drive
 			else
-			{
-				if(bFrontDrive)
 				{
-				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
-						driverController.getX(Hand.kRight)*-1, 
-						true);
-				} 
-				else if(bReverseDrive)
-				{
-				myRobot.arcadeDrive(driverController.getY(Hand.kRight)*-1, 
-						driverController.getX(Hand.kRight), 
-						true);
-				}
+					if(bFrontDrive)
+						{
+						if(bArcadeDrive)
+							{
+							myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+								driverController.getX(Hand.kRight)*-1, 
+								true);
+							} 
+						else if (bTankDrive)
+							{
+							myRobot.tankDrive((driverController.getY(Hand.kLeft)),
+									(driverController.getY(Hand.kRight)),
+									true);
+							} 
+						else 
+							{
+							myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+									driverController.getX(Hand.kRight)*-1, 
+									true);	
+							}
+						}
+				
+					else if(bReverseDrive)
+					{
+						if(bArcadeDrive)
+							{
+							myRobot.arcadeDrive(driverController.getY(Hand.kRight)*-1, 
+								driverController.getX(Hand.kRight), 
+								true);
+							}	 
+						else if (bTankDrive)
+							{
+							myRobot.tankDrive((driverController.getY(Hand.kLeft)*-1),
+									(driverController.getY(Hand.kRight)*-1),
+									true);
+							} 
+						else 
+							{
+							myRobot.arcadeDrive(driverController.getY(Hand.kRight)*-1, 
+									driverController.getX(Hand.kRight), 
+									true);
+							}
+					}
 				else
-				{
-				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
-						driverController.getX(Hand.kRight)*-1, 
-						true);
-				}
+					{
+					if(bArcadeDrive)
+						{
+						myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+							driverController.getX(Hand.kRight)*-1, 
+							true);
+						} 
+					else if (bTankDrive)
+						{
+						myRobot.tankDrive((driverController.getY(Hand.kLeft)),
+								(driverController.getY(Hand.kRight)),
+								true);
+						} 
+					else 
+						{
+						myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+								driverController.getX(Hand.kRight)*-1, 
+								true);	
+						}
+					}
 			}
 			climber.set(Math.abs(attack3.getY()));	
 			// climber.set(-1*(driverController.getXButton()?1:0));
