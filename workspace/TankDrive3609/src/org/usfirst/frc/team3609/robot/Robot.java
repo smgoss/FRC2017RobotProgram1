@@ -161,9 +161,10 @@ public class Robot extends SampleRobot {
 							} 
 						else if (bTankDrive)
 							{
-							myRobot.tankDrive((driverController.getY(Hand.kLeft)),
-									(driverController.getY(Hand.kRight)),
+							myRobot.tankDrive((driverController.getY(Hand.kRight)),
+									(driverController.getY(Hand.kLeft)),
 									true);
+							
 							} 
 						else 
 							{
