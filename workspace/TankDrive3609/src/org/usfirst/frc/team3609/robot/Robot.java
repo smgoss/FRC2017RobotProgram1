@@ -140,19 +140,19 @@ public class Robot extends SampleRobot {
 			{
 				if(bFrontDrive)
 				{
-				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+				myRobot.arcadeDrive(driverController.getY(Hand.kRight)*0.9, 
 						driverController.getX(Hand.kRight)*-1, 
 						true);
 				} 
 				else if(bReverseDrive)
 				{
-				myRobot.arcadeDrive(driverController.getY(Hand.kRight)*-1, 
+				myRobot.arcadeDrive(driverController.getY(Hand.kRight)*-0.9, 
 						driverController.getX(Hand.kRight), 
 						true);
 				}
 				else
 				{
-				myRobot.arcadeDrive(driverController.getY(Hand.kRight), 
+				myRobot.arcadeDrive(driverController.getY(Hand.kRight)*0.9, 
 						driverController.getX(Hand.kRight)*-1, 
 						true);
 				}
