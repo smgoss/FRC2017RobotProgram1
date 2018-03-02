@@ -1,17 +1,16 @@
 package org.usfirst.frc.team3609.robot;
 
-import edu.wpi.first.wpilibj.SampleRobot;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.drive.*;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.can.*;
 /**
  * This is a demo program showing the use of the RobotDrive class, specifically
  * it contains the code necessary to operate a robot with tank drive.
@@ -29,17 +28,18 @@ import com.ctre.CANTalon.TalonControlMode;
  */
 
 
-public class Robot extends SampleRobot {
+public class Robot extends SampleRobot{
 	// An Xbox controller for driving
 	XboxController driverController = new XboxController (0); 
 	// Left side motor controllers
-	CANTalon mControlLeftF = new CANTalon (0);
-	CANTalon mControlLeftR = new CANTalon (1);
+	WPI_TalonSRX mControlLeftF = new WPI_TalonSRX (10);
+	WPI_TalonSRX mControlLeftR = new WPI_TalonSRX (11);
 	// Right side motor controllers
-	CANTalon mControlRightF = new CANTalon (2);
-	CANTalon mControlRightR = new CANTalon (4);
+	WPI_TalonSRX mControlRightF = new WPI_TalonSRX (12);
+	WPI_TalonSRX mControlRightR = new WPI_TalonSRX (13);
 	// Robot drive
-	RobotDrive myRobot = new RobotDrive(mControlLeftF, mControlRightF);
+	DifferentialDrive myRobot = new DifferentialDrive(mControlLeftF, mControlRightF);
+	
 	// A Chooser for selecting Auto mode on the SmartDashboard
 	SendableChooser<autoMode> chooser = new SendableChooser<autoMode>();
 	// Auto mode enumerations
@@ -58,10 +58,8 @@ public class Robot extends SampleRobot {
 		mControlRightF.set(0);
 		mControlRightR.set(0);
 		// Map the rear motors to follow the front motors
-		mControlLeftR.changeControlMode(TalonControlMode.Follower);
-		mControlLeftR.set(mControlLeftF.getDeviceID());
-	    mControlRightR.changeControlMode(TalonControlMode.Follower);
-	    mControlRightR.set(mControlRightF.getDeviceID());
+		mControlLeftR.follow(mControlLeftF);
+	    mControlRightR.follow(mControlRightF);
 	    // Add auto mode options to the SmartDashboard
 		chooser.addDefault("First Auto Mode", autoMode.AUTOMODE1);
 		chooser.addObject("Second Auto Mode", autoMode.AUTOMODE2);
